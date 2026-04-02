@@ -1,6 +1,6 @@
-# MediaOcean Planned Radio Report Splitter
+# MediaOcean Planned Report Splitter
 
-Splits condensed Media Ocean planned radio buy lines into individual spot-per-day rows for client reporting.
+Splits condensed Media Ocean planned buy lines into individual spot-per-day rows for client reporting.
 
 ## What it does
 
