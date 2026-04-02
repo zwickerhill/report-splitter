@@ -99,13 +99,14 @@ def split_line(row):
     return rows
 
 
-def split_report(input_path, output_path=None):
-    df = pd.read_excel(input_path, header=None)
+def process(df):
+    """Core splitting logic. Takes a raw DataFrame, returns (result_df, stats_dict)."""
     data_start = find_data_start(df)
 
     output_rows = []
     orig_total_spots = 0
     orig_total_net = 0.0
+    orig_lines = 0
     skipped_g = 0
 
     for idx in range(data_start, len(df)):
@@ -119,11 +120,30 @@ def split_report(input_path, output_path=None):
             skipped_g += 1
             continue
 
+        orig_lines += 1
         orig_total_spots += int(row[C_SPOTS])
         orig_total_net += float(row[C_NET])
         output_rows.extend(split_line(row))
 
     result = pd.DataFrame(output_rows)
+    split_net = sum(r["Net Cost"] for r in output_rows)
+
+    stats = {
+        "orig_lines": orig_lines,
+        "orig_spots": orig_total_spots,
+        "orig_net": orig_total_net,
+        "split_rows": len(result),
+        "split_net": split_net,
+        "skipped_g": skipped_g,
+        "net_diff": abs(orig_total_net - split_net),
+    }
+
+    return result, stats
+
+
+def split_report(input_path, output_path=None):
+    df = pd.read_excel(input_path, header=None)
+    result, stats = process(df)
 
     if output_path is None:
         p = Path(input_path)
@@ -131,13 +151,12 @@ def split_report(input_path, output_path=None):
 
     result.to_excel(str(output_path), index=False)
 
-    split_net = sum(r["Net Cost"] for r in output_rows)
     print(f"Input:  {input_path}")
     print(f"Output: {output_path}")
-    print(f"Original buy lines:  {orig_total_spots} spots across {idx - data_start + 1 - skipped_g} lines (excl subtotals/Added Value)")
-    print(f"Split output rows:   {len(result)}")
-    print(f"Skipped Added Value: {skipped_g} lines")
-    print(f"Net cost check:      Original ${orig_total_net:,.2f}  →  Split ${split_net:,.2f}  (diff: ${abs(orig_total_net - split_net):.2f})")
+    print(f"Original buy lines:  {stats['orig_spots']} spots across {stats['orig_lines']} lines (excl subtotals/Added Value)")
+    print(f"Split output rows:   {stats['split_rows']}")
+    print(f"Skipped Added Value: {stats['skipped_g']} lines")
+    print(f"Net cost check:      Original ${stats['orig_net']:,.2f}  →  Split ${stats['split_net']:,.2f}  (diff: ${stats['net_diff']:.2f})")
 
 
 if __name__ == "__main__":
