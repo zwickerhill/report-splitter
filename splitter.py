@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-MediaOcean Radio Report Splitter
+Planned Media Report Splitter
 
-Takes a MediaOcean planned radio report (.xls) and splits condensed buy lines
+Takes a planned media report (.xls) and splits condensed buy lines
 into individual spot-per-day rows for client reporting.
 
 Usage: python splitter.py <input_file.xls> [output_file.xlsx]
@@ -23,7 +23,7 @@ ROTATION_OFFSETS = {
 
 DAY_NAMES = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
 
-# Column indices in the MediaOcean .xls export
+# Column indices in the .xls export
 C_MEDIA, C_CLIENT, C_PRODUCT, C_ESTIMATE, C_MARKET = 0, 1, 2, 3, 4
 C_STATION, C_AFFIL, C_LINE, C_WEEK, C_DPT = 5, 6, 7, 8, 9
 C_LEN, C_ROTATION, C_TIMES, C_PROGRAM = 10, 11, 12, 13

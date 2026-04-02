@@ -5,9 +5,9 @@ import streamlit as st
 
 from splitter import process
 
-st.set_page_config(page_title="MediaOcean Splitter", page_icon="📊")
-st.title("MediaOcean Planned Report Splitter")
-st.write("Upload a Media Ocean planned `.xls` export to split condensed buy lines into individual spot-per-day rows.")
+st.set_page_config(page_title="Planned Media Splitter", page_icon="📊")
+st.title("Planned Media Report Splitter")
+st.write("Upload a planned media `.xls` export to split condensed buy lines into individual spot-per-day rows.")
 
 uploaded = st.file_uploader("Upload .xls file", type=["xls"])
 

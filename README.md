@@ -1,10 +1,10 @@
-# MediaOcean Planned Report Splitter
+# Planned Media Report Splitter
 
-Splits condensed Media Ocean planned buy lines into individual spot-per-day rows for client reporting.
+Splits condensed planned media buy lines into individual spot-per-day rows for client reporting.
 
 ## What it does
 
-Takes a Media Ocean `.xls` export where each line shows aggregated spots (e.g., 5 spots on M-F) and expands it into one row per spot per day, splitting costs proportionally:
+Takes a planned media `.xls` export where each line shows aggregated spots (e.g., 5 spots on M-F) and expands it into one row per spot per day, splitting costs proportionally:
 
 | Field | Original | Split |
 |-------|----------|-------|
@@ -21,7 +21,13 @@ Takes a Media Ocean `.xls` export where each line shows aggregated spots (e.g., 
 - **Day cycling**: When spots exceed available days (e.g., 7 spots on M-F), extra spots cycle back to the beginning of the rotation
 - **Remainder handling**: Rounding remainders from cost division go to the first spot so totals always match exactly
 
-## Requirements
+## Web App
+
+A Streamlit web interface is available for non-technical users — upload a file and download the split report.
+
+## CLI Usage
+
+### Requirements
 
 - Python 3.8+
 - `pandas`
@@ -31,30 +37,11 @@ Takes a Media Ocean `.xls` export where each line shows aggregated spots (e.g., 
 pip install pandas xlrd
 ```
 
-## Usage
-
 ```bash
 python splitter.py <input_file.xls> [output_file.xlsx]
 ```
 
 If no output file is specified, it creates `<input_name> Split.xlsx` in the same directory.
-
-### Example
-
-```bash
-python splitter.py "April'26 Planned Radio Original.xls"
-# → creates "April'26 Planned Radio Original Split.xlsx"
-```
-
-Output:
-```
-Input:  April'26 Planned Radio Original.xls
-Output: April'26 Planned Radio Original Split.xlsx
-Original buy lines:  356 spots across 79 lines (excl subtotals/Added Value)
-Split output rows:   356
-Skipped Added Value: 16 lines
-Net cost check:      Original $21,488.00  →  Split $21,488.00  (diff: $0.00)
-```
 
 ## Supported Rotations
 
