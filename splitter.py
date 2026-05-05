@@ -13,15 +13,18 @@ from pathlib import Path
 
 import pandas as pd
 
+DAY_NAMES = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
+
 ROTATION_OFFSETS = {
     "M-F": [0, 1, 2, 3, 4],
     "SA-SU": [5, 6],
     "SAT": [5],
     "SUN": [6],
     "M-SU": [0, 1, 2, 3, 4, 5, 6],
+    "MT.TF..": [0, 1, 3, 4],   # Mon, Tue, Thu, Fri — dot = skip that day position
+    # Single-day rotations derived from DAY_NAMES order
+    **{day: [i] for i, day in enumerate(DAY_NAMES)},
 }
-
-DAY_NAMES = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
 
 # Column indices in the .xls export
 C_MEDIA, C_CLIENT, C_PRODUCT, C_ESTIMATE, C_MARKET = 0, 1, 2, 3, 4
